@@ -111,6 +111,7 @@ args = parser.parse_args()
 model_prefix_name = args.loss_type
 for augment_type in args.augment_list:
   model_prefix_name += '_' + augment_type
+model_prefix_name += '/'
 
 args.load_model_dir = os.path.join(args.load_model_dir, model_prefix_name)
 args.save_model_dir = os.path.join(args.save_model_dir, model_prefix_name)

@@ -29,7 +29,7 @@ Building and using requires the following libraries and programs\
     cuda 8.0.61 (required for gpu support) \
     python 2.7.12 \
     tensorflow 1.2.1 (or higher)\
-    opencv 2.4.9 (can be installed using: sudo apt-get install libopencv-dev python-opencv )\
+    opencv 3.4.0 (can be installed using: pip install opencv-python )\
 
 We built our system on ubuntu 16.04. Tensorflow (CPU) and Tensorflow (GPU) can both work well; they are installed in virtualenv. Other methods to install tensorflow have not been tested. 
  
