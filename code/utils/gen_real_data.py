@@ -6,7 +6,6 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import inv
-from shapely.geometry import Polygon, Point
 from utils import progress_bar, removeHiddenfile, draw_matches
 from utils import show_image, find_nine_grid_points
 from numpy_spatial_transformer import numpy_transformer
@@ -101,6 +100,7 @@ def homographyGeneration(args, raw_image_path, index):
         cv2.polylines(visualization, np.int32([corr2]), 1,  (0, 255, 255))
         show_image((1,2,2),"I PRIME", visualization)
         plt.show()
+    
     for i in range(args.im_per_im):
       progress_bar(index, args.num_data + args.start_index, 'Real %d/%d, Gen %d'%(num_files,len(image_files), index ))
 

@@ -4,7 +4,6 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import inv
-from shapely.geometry import Polygon, Point
 from utils import progress_bar, removeHiddenfile, draw_matches
 from utils import show_image, find_nine_grid_points
 from numpy_spatial_transformer import numpy_transformer
@@ -29,39 +28,31 @@ def homographyGeneration(args, raw_image_path, index):
 
   # Text files to store homography parameters (4 corners)
   if args.mode=='train' and not args.debug:
-    f_pts1 = open(args.pts1_file, 'ab')
-    f_gt = open(args.gt_file, 'ab')
+    f_pts1      = open(args.pts1_file, 'ab')
+    f_gt        = open(args.gt_file, 'ab')
     f_file_list = open(args.filenames_file, 'ab')
   elif not args.debug:
-    f_pts1 = open(args.test_pts1_file, 'ab')
-    f_gt = open(args.test_gt_file, 'ab')
+    f_pts1      = open(args.test_pts1_file, 'ab')
+    f_gt        = open(args.test_gt_file, 'ab')
     f_file_list = open(args.test_filenames_file, 'ab')
 
 
-  name_suffix = 1
-  i = 1
-  num_zeros = 0
-
-
-
-  while i < args.img_per_real + 1:
+  for i in range(args.img_per_real):
     # Randomly pick the top left point of the patch on the real image
     y = random.randint(rho, height - rho - patch_size)  # row?
     x = random.randint(rho, width - rho - patch_size)  # col?
-    # x = 4
-    # y = 2
 
     # define corners of image patch
-    top_left_point = (x, y)
-    bottom_left_point = (patch_size + x, y)
+    top_left_point     = (x, y)
+    bottom_left_point  = (patch_size + x, y)
     bottom_right_point = (patch_size + x, patch_size + y)
-    top_right_point = (x, patch_size + y)
-    four_points = [top_left_point, bottom_left_point, bottom_right_point, top_right_point]
+    top_right_point    = (x, patch_size + y)
+    four_points        = [top_left_point, bottom_left_point, bottom_right_point, top_right_point]
     perturbed_four_points = []
     for point in four_points:
       perturbed_four_points.append((point[0] + random.randint(-rho, rho), point[1] + random.randint(-rho, rho)))
 
-    # compute H
+    # compute Homography 
     H = cv2.getPerspectiveTransform(np.float32(four_points), np.float32(perturbed_four_points))
     try:
       H_inverse = inv(H)
@@ -107,7 +98,6 @@ def homographyGeneration(args, raw_image_path, index):
       return index, 0
 
     # Save synthetic data
-
     large_img_path    = os.path.join(args.I_dir, str(index) + '.jpg')
 
     if args.mode == 'train' and args.color==False:
@@ -124,26 +114,17 @@ def homographyGeneration(args, raw_image_path, index):
         # cv2.imwrite(img_prime_path, cv2.cvtColor(inv_warped_color_image, cv2.COLOR_RGB2BGR) )
         cv2.imwrite(img_prime_path,  inv_warped_color_image)
 
-    name_suffix += 1
+    # Ground truth is delta displacement 
+    gt    = np.subtract(np.array(perturbed_four_points), np.array(four_points))
+    gt    = np.array(gt).flatten().astype(np.float32) 
+    # Four corners in the first image  
+    pts1  = np.array(four_points).flatten().astype(np.float32) 
 
-    H_four_points = np.subtract(np.array(perturbed_four_points), np.array(four_points))
-    delta_h4p = np.array(H_four_points).flatten().astype(np.float32) # Store the delta of 4 points instead of h for less error later
-    pts1 = np.array(four_points).flatten().astype(np.float32) # Store the 4 points
 
-    # Debug
-    # print 'delta_h4p:', delta_h4p
-    # print 'h4p1:', h4p
-    # print 'h4p2:', np.array(perturbed_four_points).reshape([-1])
-    # print 'Error:', pts1 + delta_h4p - np.array(perturbed_four_points).reshape([-1])
-    # print 'Res H:'
-    # H_res = cv2.getPerspectiveTransform(np.array(four_points).astype(np.float32),np.array(perturbed_four_points).astype(np.float32) )
-    # print 'H-res:\n', H_res
-    # print 'Compare to origin:\n', H
-
-    np.savetxt(f_gt, [delta_h4p], delimiter= ' ')
+    np.savetxt(f_gt, [gt], delimiter= ' ')
     np.savetxt(f_pts1, [pts1], delimiter= ' ')
     f_file_list.write('%s %s\n'%(str(index)  +'.jpg', str(index)  +'.jpg') )
-    i += 1
+ 
     index += 1
     if index >= args.num_data + args.start_index:
       break
