@@ -61,11 +61,11 @@ def str2bool(s):
   return s.lower() == 'true'
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--mode', type=str, default='train', help='Train or test', choices=['train', 'test'])
-parser.add_argument('--loss_type', type=str, default='l1_loss', help='Loss type', choices=['h_loss', 'rec_loss', 'ssim_loss', 'l1_loss', 'ssim_loss', 'l1_smooth_loss', 'ncc_loss'])
-parser.add_argument('--use_batch_norm', type=str2bool, default='True', help='Use batch_norm?')
+parser.add_argument('--mode',           type=str, default='train', help='Train or test', choices=['train', 'test'])
+parser.add_argument('--loss_type',      type=str, default='l1_loss', help='Loss type', choices=['h_loss', 'rec_loss', 'ssim_loss', 'l1_loss', 'ssim_loss', 'l1_smooth_loss', 'ncc_loss'])
+parser.add_argument('--use_batch_norm', type=str2bool, default='False', help='Use batch_norm?')
 parser.add_argument('--leftright_consistent_weight', type=float, default=0, help='UUse left right consistent in loss function? Set a small weight for loss(I2_to_I1 - I1)')
-parser.add_argument('--augment_list', nargs='+', default=AUGMENT_LIST, help='List of augmentations')
+parser.add_argument('--augment_list',  nargs='+', default=AUGMENT_LIST, help='List of augmentations')
 parser.add_argument('--do_augment',     type=float, default=0.5, help='Possibility of augmenting image: color shift, brightness shift...')
 parser.add_argument('--num_gpus',       type=int, default=2, help='Number of splits')
 
@@ -83,29 +83,30 @@ parser.add_argument('--full_I_prime_dir',type=str, default=FULL_I_PRIME_DIR, hel
 parser.add_argument('--pts1_file',      type=str, default=PTS1_FILE, help='The training path to 4 corners of the first image - training dataset')
 parser.add_argument('--test_pts1_file', type=str, default=TEST_PTS1_FILE, help='The test path to 4 corners of the first image - test dataset')
 parser.add_argument('--gt_file',        type=str, default=GROUND_TRUTH_FILE, help='The training ground truth file')
-parser.add_argument('--test_gt_file',  type=str, default=TEST_GROUND_TRUTH_FILE, help='The test ground truth file')
-parser.add_argument('--filenames_file',     type=str, default=FILENAMES_FILE, help='File that contains all names of files, for training')
-parser.add_argument('--test_filenames_file',     type=str, default=TEST_FILENAMES_FILE, help='File that contains all names of files for evaluation')
+parser.add_argument('--test_gt_file',   type=str, default=TEST_GROUND_TRUTH_FILE, help='The test ground truth file')
+parser.add_argument('--filenames_file', type=str, default=FILENAMES_FILE, help='File that contains all names of files, for training')
+parser.add_argument('--test_filenames_file', type=str, default=TEST_FILENAMES_FILE, help='File that contains all names of files for evaluation')
 
-parser.add_argument('--visual',   type=str2bool, default='false', help='Visualize obtained images to debug')
-parser.add_argument('--save_visual',   type=str2bool, default='True', help='Save visualized image for report')
-parser.add_argument('--do_report',   type=str2bool, default='False', help='Save visualized image of other methods into one folder for report')
+parser.add_argument('--visual',         type=str2bool, default='false', help='Visualize obtained images to debug')
+parser.add_argument('--save_visual',    type=str2bool, default='True', help='Save visualized image for report')
+parser.add_argument('--do_report',      type=str2bool, default='False', help='Save visualized image of other methods into one folder for report')
 
-parser.add_argument('--img_w',         type=int, default=WIDTH)
-parser.add_argument('--img_h',         type=int, default=HEIGHT)
-parser.add_argument('--full_img_w',    type=int, default=FULL_WIDTH)
-parser.add_argument('--full_img_h',    type=int, default=FULL_HEIGHT)
-parser.add_argument('--patch_size',    type=int, default=PATCH_SIZE)
-parser.add_argument('--batch_size',    type=int, default=128)
-parser.add_argument('--max_iterations',   type=int, default=150000)
-parser.add_argument('--lr',            type=float, default=1e-4, help='Max learning rate')
-parser.add_argument('--min_lr',        type=float, default=.9e-4, help='Min learning rate')
+parser.add_argument('--img_w',          type=int, default=WIDTH)
+parser.add_argument('--img_h',          type=int, default=HEIGHT)
+parser.add_argument('--full_img_w',     type=int, default=FULL_WIDTH)
+parser.add_argument('--full_img_h',     type=int, default=FULL_HEIGHT)
+parser.add_argument('--patch_size',     type=int, default=PATCH_SIZE)
+parser.add_argument('--batch_size',     type=int, default=128)
+parser.add_argument('--max_iterations', type=int, default=150000)
+parser.add_argument('--lr',             type=float, default=1e-4, help='Max learning rate')
+parser.add_argument('--min_lr',         type=float, default=.9e-4, help='Min learning rate')
 
-parser.add_argument('--resume', type=str2bool, default='False', help='True: restore the existing model. False: retrain')
+parser.add_argument('--resume',  type=str2bool, default='False', help='True: restore the existing model. False: retrain')
 parser.add_argument('--retrain', type=str2bool, default='False', help='True: restore the existing model, use max learning rate & reset iteration to be 0')
-parser.add_argument('--finetune', type=str2bool,default='True', help='True: restore the model trained using synthetic data. False: train from the scratch or resume training on real image data')
+parser.add_argument('--finetune',type=str2bool,default='True', help='True: restore the model trained using synthetic data. False: train from the scratch or resume training on real image data')
 
 print('<==================== Loading data ===================>\n')
+
 args = parser.parse_args()
 # Update model_dir
 model_prefix_name = args.loss_type

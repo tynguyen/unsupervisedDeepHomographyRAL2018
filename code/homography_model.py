@@ -89,10 +89,7 @@ class HomographyModel(object):
     p = np.floor((kernel_size -1)/2).astype(np.int32)
     p_x = tf.pad(x, [[0, 0], [p, p], [p, p], [0, 0]])
     out_conv =  slim.conv2d(inputs=p_x, num_outputs=num_out_layers, kernel_size=kernel_size, stride=stride, padding="VALID", activation_fn=activation_fn, scope=scope)
-    try: # use batch_norm
-        out_conv = tf.cond(tf.constant(self.use_batch_norm), lambda: slim.batch_norm(out_conv, self.is_training), lambda: out_conv)
-    except: # in case batch_norm is not used during training
-        pass
+    out_conv = tf.cond(tf.constant(self.use_batch_norm), lambda: slim.batch_norm(out_conv, self.is_training), lambda: out_conv)
     return out_conv
 
   def _conv_block(self, x, num_out_layers, kernel_sizes, strides):
