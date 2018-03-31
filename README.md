@@ -186,7 +186,11 @@ python homography_synthetic.py --mode test --lr 1e-4 --loss_type l1_loss
 ``` 
 
 # Generate aerial dataset
-We are working with Aerial Application to finalize the availability of our aerial image dataset. We will update soon.   
+Due to the company's privacy, we cannot make our aerial dataset publically available. However, there is an alternative which readers might be interested in, from: 
+https://github.com/OpenDroneMap/OpenDroneMap/tree/master/tests/test_data
+
+These datasets are quite similar to ours. 
+
 
 ### Supervised 
 For the supervised method, everything should be as same as in synthetic dataset. We use aerial images to generate synthetic images to train the model. 
