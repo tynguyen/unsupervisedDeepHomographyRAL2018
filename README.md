@@ -122,7 +122,7 @@ python utils/gen_synthetic_data.py --mode test
 In all training and testing processes, you can visualize images using either Tensorboard or just set --visual True in calling python functions. Tensorboard is highly recommended since it does not reduce the running speed as much as plotting using --visual flag. 
 For example
 ```bash 
-python homography_synthetic.py --mode train --lr 5e-4 --loss_type h_loss --visual True 
+python homography_CNN_synthetic.py --mode train --lr 5e-4 --loss_type h_loss --visual True 
 ``` 
 
 ## Train model with synthetic dataset
@@ -167,22 +167,22 @@ In the file code/homography_CNN_synthetic.py, set important parameters as follow
 
 ### Supervised
 ```bash 
-python homography_synthetic.py --mode train --lr 5e-4 --loss_type h_loss
+python homography_CNN_synthetic.py --mode train --lr 5e-4 --loss_type h_loss
 ``` 
 ### Unsupervised
 ```bash 
-python homography_synthetic.py --mode train --lr 1e-4 --loss_type l1_loss 
+python homography_CNN_synthetic.py --mode train --lr 1e-4 --loss_type l1_loss 
 ``` 
 
 ## Test model with synthetic dataset
 ### Supervised
 ```bash 
-python homography_synthetic.py --mode test --lr 5e-4 --loss_type h_loss 
+python homography_CNN_synthetic.py --mode test --lr 5e-4 --loss_type h_loss 
 ``` 
 
 ### Unsupervised
 ```bash 
-python homography_synthetic.py --mode test --lr 1e-4 --loss_type l1_loss  
+python homography_CNN_synthetic.py --mode test --lr 1e-4 --loss_type l1_loss  
 ``` 
 
 # Generate aerial dataset
@@ -297,30 +297,30 @@ In the file homography_CNN_real.py, set parameters as follows
 ```
 ### Supervised
 For supervised method, after generating a new set of synthetic images using the aerial dataset, 
-change DATA_PATH in homography_synthetic.py accordingly and run 
+change DATA_PATH in homography_CNN_synthetic.py accordingly and run 
 ```bash 
-python homography_synthetic.py --mode train --lr 5e-4 --loss_type h_loss 
+python homography_CNN_synthetic.py --mode train --lr 5e-4 --loss_type h_loss 
 ``` 
 
 ### Unsupervised
 ```bash 
-python homography_real.py --mode train --lr 1e-4 --loss_type l1_loss 
+python homography_CNN_real.py --mode train --lr 1e-4 --loss_type l1_loss 
 ``` 
 There are a couple of options during the training. 
 #### Training model from scratch 
 ```bash 
-python homography_real.py --mode train --lr 1e-4 --loss_type l1_loss --finetune False
+python homography_CNN_real.py --mode train --lr 1e-4 --loss_type l1_loss --finetune False
 ``` 
 #### Finetune model (after training on synthetic dataset or other datasets) 
 ```bash 
-python homography_real.py --mode train --lr 1e-4 --loss_type l1_loss --finetune True
+python homography_CNN_real.py --mode train --lr 1e-4 --loss_type l1_loss --finetune True
 ``` 
 #### Resume training the model (after training on aerial dataset for a while) 
 ```bash 
-python homography_real.py --mode train --lr 1e-4 --loss_type l1_loss --resume True
+python homography_CNN_real.py --mode train --lr 1e-4 --loss_type l1_loss --resume True
 ``` 
 #### Resume training the model (after training on aerial dataset for a while) but reset iteration number
 ```bash 
-python homography_real.py --mode train --lr 1e-4 --loss_type l1_loss --resume True --retrain True 
+python homography_CNN_real.py --mode train --lr 1e-4 --loss_type l1_loss --resume True --retrain True 
 ``` 
 

@@ -93,7 +93,7 @@ def transformer(U, theta, out_size, name='SpatialTransformer', **kwargs):
 
             if scale_h:
                 # scale indices from [-1, 1] to [0, width/height]
-                print '--Inter- scale_h:', scale_h
+                print('--Inter- scale_h:', scale_h)
                 x = (x + 1.0)*(width_f) / 2.0
                 y = (y + 1.0)*(height_f) / 2.0
 
@@ -160,13 +160,11 @@ def transformer(U, theta, out_size, name='SpatialTransformer', **kwargs):
             #          [1, .. 1 ... , 1]
 
             if scale_h:
-                print '--_meshgrid- scale_h:', scale_h
                 x_t = tf.matmul(tf.ones(shape=tf.stack([height, 1])),
                                 tf.transpose(tf.expand_dims(tf.linspace(-1.0, 1.0, width), 1), [1, 0]))
                 y_t = tf.matmul(tf.expand_dims(tf.linspace(-1.0, 1.0, height), 1),
                                 tf.ones(shape=tf.stack([1, width])))
             else: 
-                print '--_meshgrid- scale_h:', scale_h
                 x_t = tf.matmul(tf.ones(shape=tf.stack([height, 1])),
                             tf.transpose(tf.expand_dims(tf.linspace(0.0, tf.cast(width,'float32'), width), 1), [1, 0]))
                 y_t = tf.matmul(tf.expand_dims(tf.linspace(0.0, tf.cast(height,'float32'), height), 1),
@@ -191,12 +189,10 @@ def transformer(U, theta, out_size, name='SpatialTransformer', **kwargs):
             # theta = tf.reshape(theta, (-1, 2, 3))
             theta = tf.reshape(theta, (-1, 3, 3))
             theta = tf.cast(theta, 'float32')
-            print '--Theta:', theta 
 
             #  Added: add two matrices M and B defined as follows in 
             # order to perform the equation: H x M x [xs...;ys...;1s...] + H x [width/2...;height/2...;0...]
             theta_shape = theta.get_shape().as_list()
-            print '-- Theta shape:', theta_shape # shape=(?, 3, 3)
             # initial
 
 
@@ -216,8 +212,6 @@ def transformer(U, theta, out_size, name='SpatialTransformer', **kwargs):
             # Transform A x (x_t, y_t, 1)^T -> (x_s, y_s)
             T_g = tf.matmul(theta, grid)
             x_s = tf.slice(T_g, [0, 0, 0], [-1, 1, -1])
-            print '-- T_g:', T_g 
-            print '--x_s:', x_s 
             # Ty changed 
             # y_s = tf.slice(T_g, [0, 1, 0], [-1, 1, -1])
             y_s = tf.slice(T_g, [0, 1, 0], [-1, 1, -1])

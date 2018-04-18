@@ -602,15 +602,15 @@ def test_census_img():
   for i in range(5):
     for j in range(9):
       index = i*9 + j
-      print '\n========> Compute census for pixel %d with (y, x) = (%d, %d) (on original image)'%(index, i, j)
+      print('\n========> Compute census for pixel %d with (y, x) = (%d, %d) (on original image)'%(index, i, j))
       img, patch_img, cencus_pixel, census_img = sess.run([gray_tf, patch_img_tf, cencus_pixel_tf, census_img_tf], feed_dict={index_tf:index})
 
-      print'\nGray image after zero-padded: \n', img
-      print'\nPatch               :', patch_img
-      print  'Reversed patch      :', patch_img[::-1]
-      print  'Corresponding census:', cencus_pixel
+      print('\nGray image after zero-padded: \n', img)
+      print('\nPatch               :', patch_img)
+      print('Reversed patch      :', patch_img[::-1])
+      print('Corresponding census:', cencus_pixel)
 
-  print '\n======> Census image:\n', census_img
+  print('\n======> Census image:\n', census_img)
 
 def test_batch_census_img():
   # Initialize an image for testing
@@ -641,15 +641,15 @@ def test_batch_census_img():
   for i in range(5):
     for j in range(9):
       index = i*9 + j
-      print '\n========> Compute census for pixel %d with (y, x) = (%d, %d) (on original image)'%(index, i, j)
+      print('\n========> Compute census for pixel %d with (y, x) = (%d, %d) (on original image)'%(index, i, j))
       img, patch_img, cencus_pixel, census_img = sess.run([gray_tf, patch_img_tf, cencus_pixel_tf, census_img_tf], feed_dict={index_tf:index})
 
-      print'\nGray image after zero-padded: \n', img
-      print'\nPatch               :', patch_img
-      print  'Reversed patch      :', patch_img[::-1]
-      print  'Corresponding census:', cencus_pixel
+      print('\nGray image after zero-padded: \n', img)
+      print('\nPatch               :', patch_img)
+      print('Reversed patch      :', patch_img[::-1])
+      print('Corresponding census:', cencus_pixel)
 
-  print '\n======> Census image:\n', census_img[:,:,:,0]
+  print('\n======> Census image:\n', census_img[:,:,:,0])
 
 
 def find_percentile(x):

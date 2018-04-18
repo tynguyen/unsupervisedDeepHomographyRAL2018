@@ -33,12 +33,12 @@ TEST_FILENAMES_FILE = os.path.join(DATA_PATH,'test_synthetic.txt')
 TEST_GROUND_TRUTH_FILE = os.path.join(DATA_PATH,'test_gt.txt')
 
 # Log and model directories
-MAIN_LOG_PATH = '/media/tynguyen/'
-LOG_DIR       = MAIN_LOG_PATH + "docker_folder/pose_estimation/logs/"
-MODEL_DIR     = MAIN_LOG_PATH + "docker_folder/pose_estimation/models/synthetic_models"
+MAIN_LOG_PATH = '../'
+LOG_DIR       = MAIN_LOG_PATH + "logs/"
+MODEL_DIR     = MAIN_LOG_PATH + "models/synthetic_models"
 
 # Where to save visualization images (for report)
-RESULTS_DIR   = MAIN_LOG_PATH + "docker_folder/pose_estimation/results/synthetic/report/"
+RESULTS_DIR   = MAIN_LOG_PATH + "results/synthetic/report/"
 
 # List of augmentations to the data
 AUGMENT_LIST = ['normalize']
