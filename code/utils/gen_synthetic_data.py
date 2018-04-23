@@ -60,7 +60,7 @@ def homographyGeneration(args, raw_image_path, index):
       print "singular Error!"
       return index, 0
 
-    iinv_warped_color_image = numpy_transformer(color_image, H_inverse, (width, height))
+    inv_warped_color_image = numpy_transformer(color_image, H_inverse, (width, height))
     inv_warped_image = numpy_transformer(gray_image, H_inverse, (width, height))
 
     # Extreact image patches
